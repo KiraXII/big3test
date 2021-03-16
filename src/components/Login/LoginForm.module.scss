@@ -1,0 +1,135 @@
+
+.container {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  min-width: 320px;
+}
+
+.subButton {
+}
+
+.error {
+  margin-top: 5px;
+  margin-bottom: 24px;
+  max-width: 250px;
+
+  color: #FF768E;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 3fr 4fr;
+  width: 100%;
+  height: 100%;
+}
+
+.formWrapper {
+  display: flex;
+  margin: 15px;
+  align-items: center;
+  justify-content: center;
+  max-width: 370px;
+
+  .item {
+    margin: 10px 0;
+  }
+
+  h1 {
+    margin-bottom: 32px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 36px;
+    line-height: 49px;
+    color: #344472;
+  }
+}
+
+.imageWrapper {
+  background-color: #F5FBFF;
+  display: flex;
+
+  .loginImage {
+    padding: 40px;
+    margin: auto;
+  }
+}
+
+@media screen and (max-width: 634px) {
+  .wrapper {
+    display: flex;
+  }
+  .formWrapper {
+    max-width: 100%;
+    width: 100%;
+
+    form {
+      width: 100%;
+
+      input {
+        width: 100%;
+        height: 40px;
+      }
+
+      button {
+        width: 100%;
+        height: 40px;
+      }
+    }
+
+    .subButton {
+      text-align: center;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 36px;
+    }
+  }
+  .item lable,
+  .item span,
+  .item a,
+  .item button {
+    font-size: 15px;
+  }
+
+  .imageWrapper {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 635px) and (max-width: 879px) {
+
+
+  .formWrapper h1 {
+    font-size: 20px;
+    line-height: 0;
+  }
+  .item {
+    margin: 2px 0;
+  }
+
+  .item lable,
+  .item span,
+  .item a,
+  .item button {
+    font-size: 10px;
+  }
+
+}
+
+@media screen and (min-width: 880px) and (max-width: 990px) {
+  .formWrapper h1 {
+    font-size: 28px;
+    line-height: 20px;
+  }
+
+}
+
+@media screen and (min-width: 991px) and (max-width: 1199px) {
+
+}
