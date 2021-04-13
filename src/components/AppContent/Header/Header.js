@@ -4,12 +4,12 @@ import s from "./Header.module.scss"
 import menu from "../../../assets/images/burg-menu.png"
 
 
-const Header = ({showSidebar}) => {
+const Header = ({toggleSidebar}) => {
     return(
         <div className={s.headerWrapper}>
             <div className={s.headerShadow}>
                 <div className={s.burgMenu}>
-                    <img src={menu} onClick={showSidebar} />
+                    <img src={menu} onClick={toggleSidebar} />
                 </div>
                 <div className={s.logo}><img src={logo}/></div>
                 <div className={s.user}>

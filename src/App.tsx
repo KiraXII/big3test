@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import './App.scss';
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Login from "./components/Login/Login";
 import AppContent from "./components/AppContent/AppContent";
 import {initializeApp} from "./redux/appReducer";
@@ -10,16 +10,18 @@ const App = () => {
     useEffect(() => {
         initializeApp()
     })
-  return (
-    <BrowserRouter>
-      <div className="app-container">
-          <Login />
-          {/*<AppContent/>*/}
-      </div>
-    </BrowserRouter>  );
+    return (
+        <BrowserRouter>
+            <div className="app-container">
+                <Switch>
+                    <Route path="/" component={AppContent}/>
+                    <Route path="/login" component={Login}/>
+                </Switch>
+            </div>
+        </BrowserRouter>);
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     // initialized: state.app.initialized
 })
 

@@ -49,22 +49,24 @@
 //(min-width: 370px) and
 @media screen and (max-width: 634px) {
   .sidebarWrapper {
-    position: absolute;
+    position: fixed;
     z-index: 2;
     display: flex;
     width: 50%;
-    top: 11%;
-    left: -100%;
-    transition: 0.3ms;
+    top: 80px;
     flex-direction: column;
-    height: 89%;
-
+    height: 90%;
+    opacity: 0;
+    transition: 0.8s;
+    transform: translateX(-100%);
   }
   .userWrapper {
     display: block;
   }
   .active{
-    left: 0;
+    transform: translateX(0%);
+    opacity: 1;
+    transition: all 0.8s ease;
   }
   .nav{
     height: 100%;

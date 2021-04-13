@@ -1,13 +1,33 @@
-import LoginReduxForm from "./SignUp";
+import SignIn from "./SignIn";
+import {connect} from "react-redux";
+import {signIn, signUp} from "../../redux/authReducer";
+import React from "react"
+import {Redirect} from "react-router-dom";
+import SignUp from "./SignUp";
 
 
-const Login = ({login, isAuth}) => {
+const Login = ({signUp, signIn, isAuth}) => {
+    // const registration = ({name, login, password}) => {
+    //     signUp(name, login, password)
+    // }
+    const login = ({login, password}) => {
+        signIn(login, password)
+    }
+
+    if(isAuth){
+        return <Redirect to={"/teams"}/>
+    }
 
     return (
         <div>
-            <LoginReduxForm />
+            <SignIn />
+            {/*<SignUp />*/}
         </div>
     )
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+    isAuth: state.isAuth
+})
+
+export default connect(mapStateToProps, {signUp, signIn})(Login);

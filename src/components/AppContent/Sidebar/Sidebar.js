@@ -6,9 +6,9 @@ import defaultProfile from "../../../assets/images/default-profile.png";
 import {NavLink} from "react-router-dom";
 
 
-const Sidebar = ({sidebar}) => {
+const Sidebar = ({isShowSidebar, toggleSidebar}) => {
     return (
-        <nav className={sidebar ? `${s.sidebarWrapper} ${s.active}` : `${s.sidebarWrapper}`}>
+        <nav className={isShowSidebar ? `${s.sidebarWrapper} ${s.active}` : `${s.sidebarWrapper}`}>
             <div className={s.userWrapper}>
                 <div className={s.user}>
                     <img src={defaultProfile}/>
@@ -17,8 +17,8 @@ const Sidebar = ({sidebar}) => {
             </div>
             <div className={s.nav}>
                 <div>
-                    <NavLink to="/teams" className={s.sidebarItem}><img src={teamLogo}/>Teams</NavLink>
-                    <NavLink to="/players" className={s.sidebarItem}><img src={playerLogo}/>Players</NavLink>
+                    <NavLink to="/teams" className={s.sidebarItem} onClick={toggleSidebar}><img src={teamLogo}/>Teams</NavLink>
+                    <NavLink to="/players" className={s.sidebarItem} onClick={toggleSidebar}><img src={playerLogo}/>Players</NavLink>
                 </div>
                 <div className={s.sidebarItem}><img src={signLogo}/>Sign out</div>
             </div>

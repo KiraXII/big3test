@@ -1,29 +1,32 @@
 import s from "../Content.module.scss"
 import emptyTeam from "../../../../assets/images/image-empty-team.png";
+import EmptyBlock from "../EmptyBlock";
+import Team from "./Team";
+import React from "react";
+import Search from "../../../../common/Search";
 
 const Teams = () => {
+    const teams = new Array(11)
+        .fill("")
+        .map((_, i) => (i))
     return (
         <div className={s.content}>
             <div className={s.contentWrapper}>
                 <div className={s.inputs}>
-                    <div>
-                        <input type="text" name="search" placeholder="Search..."/>
-                    </div>
+                    <Search/>
                     <div>
                         <button>Add +</button>
                     </div>
                 </div>
-                <div className={s.blockWrapper}>
-                    <div className={s.block}>
-                        <div>
-                            <img src={emptyTeam}/>
+                <div className={s.cardsContainer}>
+                    {teams.map(team => (
+                        <div className={s.card} key={team}>
+                            <Team/>
                         </div>
-                        <div>
-                            <div className={s.title}>Empty here</div>
-                            <div className={s.subTitle}>Add new teams to continue</div>
-                        </div>
-                    </div>
+                    ))}
+
                 </div>
+                {/*<EmptyBlock blockImg={emptyTeam} title={"teams"}/>*/}
             </div>
         </div>
     )

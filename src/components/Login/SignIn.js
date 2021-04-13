@@ -1,88 +1,56 @@
-import React, {useState} from 'react';
+import React from 'react';
 import s from "./LoginForm.module.scss"
 import rightImg from "../../assets/images/SignInWall.svg"
+import { useForm } from "react-hook-form"
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import Input from "../../common/Input";
 
-const SignIn = ({handleSubmit}) => {
-    const [login, setLogin] = useState('');
-    const [password, setPassword] = useState('');
-    const [loginTouched, setLoginTouched] = useState(false);
-    const [passwordTouched, setPasswordTouched] = useState(false);
-    const [loginError, setLoginError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
+const SignIn = () => {
 
-    const blurHandler = (e) => {
-        switch (e.target.name) {
-            case "login":
-                setLoginTouched(true)
-            case "password":
-                setPasswordTouched(true)
-                break
-        }
+    const schema = yup.object().shape({
+        login: yup.string().required(),
+        password: yup.string().required().min(4).max(15),
+    })
+
+    const {register, handleSubmit, errors} = useForm({resolver: yupResolver(schema),mode: "onChange"});
+
+    const onSubmit = (data) => {
+        console.log(data)
+    }
+    const onErrors = (errors) => {
+        console.log(errors)
     }
 
-    const loginHandler = (e) => {
-        setLogin(e.target.value)
-        if (!e.target.value){
-            setLoginError('Еhe login cannot be empty')
-        } else {
-            setLoginError('')
-        }
-
-    }
-
-    const passwordHandler = (e) => {
-        setPassword(e.target.value)
-
-        if(!e.target.value.length)
-            return setPasswordError('Еhe password cannot be empty')
-        if(e.target.value.length < 3)
-            return setPasswordError('The password cannot be less than 3 characters')
-        else if(e.target.value.length > 16)
-            return setPasswordError('The password can not be more than 16 characters')
-        else {
-            setPasswordError('')
-        }
-    }
-    console.log(handleSubmit)
     return (
         <div className={s.container}>
             <div className={s.wrapper}>
                 <div className={s.formWrapper}>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit(onSubmit, onErrors)}>
                         <h1>Sign In</h1>
-                        <div className={s.item}>
-                            <div>
-                                <lable>Login</lable>
-                            </div>
-                            <input
-                                onChange={e => loginHandler(e)}
-                                value={login}
-                                onBlur={e => blurHandler(e)}
-                                name="login"
-                                type="text"/>
-                            {(loginTouched && loginError) && <div className={s.error}>{loginError}</div>}
-                        </div>
-                        <div className={s.item}>
-                            <div>
-                                <lable>Password</lable>
-                            </div>
-                            <input
-                                onChange={e => passwordHandler(e)}
-                                value={password}
-                                onBlur={e => blurHandler(e)}
-                                name="password"
-                                type="password"/>
-                            {(passwordTouched && passwordError) && <div className={s.error}>{passwordError}</div>}
-                        </div>
-                        <div className={s.item}>
-                                <button>Sign In</button>
-                        </div>
-                        <div className={s.item}>
+                        <Input
+                            register={register}
+                            errors={errors}
+                            label="Login"
+                            required={true}
+                            inputName="login"
+                            type="text"
+                        />
+                        <p className={s.error}>{errors.login?.message}</p>
+                        <Input
+                            register={register}
+                            errors={errors}
+                            label="Password"
+                            required={true}
+                            inputName="password"
+                            type="password"
+                        />
+                        <p className={s.error}>{errors.password?.message}</p>
+                        <button type="submit">Sign In</button>
                             <div className={s.subButton}>
                                 <span>Not a member yet? </span>
                                 <a href="">Sign up</a>
                             </div>
-                        </div>
                     </form>
                 </div>
                 <div className={s.imageWrapper}>
@@ -95,6 +63,5 @@ const SignIn = ({handleSubmit}) => {
     );
 }
 
-// const LoginReduxForm = reduxForm ({form: "signIn"})(SignIn)
-//
-// export default LoginReduxForm;
+
+export default SignIn;

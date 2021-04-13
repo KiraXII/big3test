@@ -8,14 +8,14 @@ import React, {useState} from "react";
 
 let AppContent = () => {
 
-    const [sidebar, setSidebar] = useState(false);
+    const [isShowSidebar, setSidebar] = useState(false);
 
-    const showSidebar = () => setSidebar(!sidebar)
+    const toggleSidebar = () => setSidebar(!isShowSidebar)
 
     return (
         <div className={s.container}>
-            <Header sidebar={sidebar} showSidebar={showSidebar} id="header"/>
-            <Sidebar sidebar={sidebar} showSidebar={showSidebar} id="sidebar"/>
+            <Header toggleSidebar={toggleSidebar} id="header"/>
+            <Sidebar isShowSidebar={isShowSidebar} toggleSidebar={toggleSidebar} id="sidebar"/>
             <Content id="content"/>
         </div>
     )

@@ -1,160 +1,83 @@
-import React, {useState} from 'react';
+import React from 'react';
 import s from "./LoginForm.module.scss"
-import signUp from "../../assets/images/sign-up.png"
-import {reduxForm} from "redux-form"
-import {useForm} from "react-hook-form";
+import rightImg from "../../assets/images/sign-up.png"
+import {useForm} from "react-hook-form"
+import {yupResolver} from "@hookform/resolvers/yup"
+import * as yup from "yup"
+import Input from "../../common/Input";
 
-const SignUp = ({handleSubmit}) => {
+const SignUp = () => {
 
+    const schema = yup.object().shape({
+        userName: yup.string().required(),
+        login: yup.string().required(),
+        password: yup.string().required().min(4).max(15),
+        confirmPassword: yup.string().oneOf([yup.ref("password"), null])
+    })
 
-    const [name, setName] = useState('')
-    const [login, setLogin] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordAgain, setPasswordAgain] = useState('');
-    const [nameTouched, setNameTouched] = useState(false);
-    const [loginTouched, setLoginTouched] = useState(false);
-    const [passwordAgainTouched, setPasswordAgainTouched] = useState(false);
-    const [passwordTouched, setPasswordTouched] = useState(false);
-    const [nameError, setNameError] = useState('');
-    const [loginError, setLoginError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
-    const [passwordAgainError, setPasswordAgainError] = useState('');
+    const {register, handleSubmit, errors} = useForm({resolver: yupResolver(schema), mode: "onChange"});
 
-    const blurHandler = (e) => {
-        switch (e.target.name) {
-            case "name":
-                setNameTouched(true)
-                if (!e.target.value && e.target.name === "name") {
-                    setNameError('Еhe name cannot be empty')
-                }
-            case "login":
-                setLoginTouched(true)
-                if (!e.target.value && e.target.name === "login") {
-                    setLoginError('Еhe login cannot be empty')
-                }
-            case "password":
-                setPasswordTouched(true)
-                if (!e.target.value && e.target.name === "password") {
-                    setPasswordError('Еhe password cannot be empty')
-                }
-            case "passwordAgain":
-                setPasswordAgainTouched(true)
-                if (!e.target.value && e.target.name === "passwordAgain") {
-                    setPasswordAgainError("Passwords don't match")
-                }
-                break
-        }
+    const onSubmit = (data) => {
+        console.log(data)
     }
-    const nameHandler = (e) => {
-        setName(e.target.value)
-        if (!e.target.value) {
-            setNameError('Еhe name cannot be empty')
-        } else {
-            setNameError('')
-        }
+    const onErrors = (errors) => {
+        console.log(errors)
     }
 
-    const loginHandler = (e) => {
-        setLogin(e.target.value)
-        if (!e.target.value) {
-            setLoginError('Еhe login cannot be empty')
-        } else {
-            setLoginError('')
-        }
-
-    }
-
-    const passwordHandler = (e) => {
-        setPassword(e.target.value)
-
-        if (!e.target.value.length)
-            return setPasswordError('Еhe password cannot be empty')
-        if (e.target.value.length < 3)
-            return setPasswordError('The password cannot be less than 3 characters')
-        else if (e.target.value.length > 16)
-            return setPasswordError('The password can not be more than 16 characters')
-        else {
-            setPasswordError('')
-        }
-    }
-    const passwordAgainHandler = (e) => {
-        setPasswordAgain(e.target.value)
-        if (e.target.value !== password)
-            return setPasswordAgainError("Passwords don't match")
-        else if (e.target.value === password) {
-            setPasswordAgainError('')
-        }
-
-    }
     return (
         <div className={s.container}>
             <div className={s.wrapper}>
                 <div className={s.formWrapper}>
-                    <form onSubmit={handleSubmit}>
+                    <form
+                        onSubmit={handleSubmit(onSubmit, onErrors)}
+                    >
                         <h1>Sign Up</h1>
-                        <div className={s.item}>
-                            <div>
-                                <lable>Name</lable>
-                            </div>
-                            <input
-                                onChange={e => nameHandler(e)}
-                                value={name}
-                                onBlur={e => blurHandler(e)}
-                                name="name"
-                                type="text"/>
-                            {(nameTouched && nameError) && <div className={s.error}>{nameError}</div>}
-                        </div>
-                        <div className={s.item}>
-                            <div>
-                                <lable>Login</lable>
-                            </div>
-                            <input
-                                onChange={e => loginHandler(e)}
-                                value={login}
-                                onBlur={e => blurHandler(e)}
-                                name="login"
-                                type="text"/>
-                            {(loginTouched && loginError) && <div className={s.error}>{loginError}</div>}
-                        </div>
-                        <div className={s.item}>
-                            <div>
-                                <lable>Password</lable>
-                            </div>
-                            <input
-                                onChange={e => passwordHandler(e)}
-                                value={password}
-                                onBlur={e => blurHandler(e)}
-                                name="password"
-                                type="password"/>
-                            {(passwordTouched && passwordError) && <div className={s.error}>{passwordError}</div>}
-                        </div>
-                        <div className={s.item}>
-                            <div>
-                                <lable>Enter your password again</lable>
-                            </div>
-                            <input
-                                onChange={e => passwordAgainHandler(e)}
-                                value={passwordAgain}
-                                onBlur={e => blurHandler(e)}
-                                name="passwordAgain"
-                                type="password"/>
-                            {(passwordAgainTouched && passwordAgainError) &&
-                            <div className={s.error}>{passwordAgainError}</div>}
-                        </div>
-                        <div className={s.item}>
-                            <button>Sign Up</button>
-                        </div>
-                        <div className={s.item}>
-                            <div className={s.subButton}>
-                                <span>Already a member? </span>
-                                <a href="">Sign in</a>
-                            </div>
+                        <Input
+                            register={register}
+                            errors={errors}
+                            label="Name"
+                            required={true}
+                            inputName="userName"
+                            type="text"
+                        />
+                        <p className={s.error}>{errors.userName?.message}</p>
+                        <Input
+                            register={register}
+                            errors={errors}
+                            label="Login"
+                            required={true}
+                            inputName="login"
+                            type="text"
+                        />
+                        <p className={s.error}>{errors.login?.message}</p>
+                        <Input
+                            register={register}
+                            errors={errors}
+                            label="Password"
+                            required={true}
+                            inputName="password"
+                            type="password"
+                        />
+                        <p className={s.error}>{errors.password?.message}</p>
+                        <Input
+                            register={register}
+                            errors={errors}
+                            label="Enter your password again"
+                            required={true}
+                            inputName="confirmPassword"
+                            type="password"
+                        />
+                        <p className={s.error}>{errors.confirmPassword && "Password should match!"}</p>
+                        <button type="submit">Sign Up</button>
+                        <div className={s.subButton}>
+                            <span>Already a member? </span>
+                            <a href="">Sign in</a>
                         </div>
                     </form>
                 </div>
                 <div className={s.imageWrapper}>
                     <div className={s.loginImage}>
-                        <img src={signUp}/>
+                        <img src={rightImg}/>
                     </div>
                 </div>
             </div>
@@ -162,6 +85,4 @@ const SignUp = ({handleSubmit}) => {
     );
 }
 
-const LoginReduxForm = reduxForm({form: "signIn"})(SignUp)
-
-export default LoginReduxForm;
+export default SignUp;
